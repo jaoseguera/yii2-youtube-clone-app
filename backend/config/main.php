@@ -12,7 +12,12 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        'gii' => [
+            'class' => 'yii\gii\module',
+            'allowedIPs' => ['*']
+        ]
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
