@@ -2,11 +2,14 @@
 
 namespace backend\controllers;
 
+use yii\filters\AccessControl;
 use common\models\Video;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
+use Yii;
 
 /**
  * VideoController implements the CRUD actions for Video model.
@@ -18,17 +21,23 @@ class VideoController extends Controller
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@']
+                    ]
+                ]
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
                 ],
-            ]
-        );
+            ],
+        ];
     }
 
     /**
@@ -79,8 +88,11 @@ class VideoController extends Controller
     {
         $model = new Video();
 
+        $model->video = UploadedFile::getInstanceByName('video');
+
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            // Possible bug: $model->load($this->request->post()) returns false always.
+            if ($this->request->isPost && $model->save()) {
                 return $this->redirect(['view', 'video_id' => $model->video_id]);
             }
         } else {
