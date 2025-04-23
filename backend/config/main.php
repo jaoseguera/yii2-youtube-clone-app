@@ -16,6 +16,10 @@ return [
         'gii' => [
             'class' => 'yii\gii\module',
             'allowedIPs' => ['*']
+        ],
+        'debug' => [
+            'class' => 'yii\debug\module',
+            'allowedIPs' => ['*']
         ]
     ],
     'components' => [
@@ -36,7 +40,7 @@ return [
             'targets' => [
                 [
                     'class' => \yii\log\FileTarget::class,
-                    'levels' => ['error', 'warning'],
+                    'levels' => ['error', 'warning', 'info'],
                 ],
             ],
         ],
@@ -49,6 +53,9 @@ return [
             'rules' => [
             ],
         ],
+        'assetManager' => [
+            'appendTimestamp' => true
+        ]
     ],
     'params' => $params,
 ];
