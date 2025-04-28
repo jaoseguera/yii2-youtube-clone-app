@@ -93,7 +93,7 @@ class VideoController extends Controller
         if ($this->request->isPost) {
             // Possible bug: $model->load($this->request->post()) returns false always.
             if ($this->request->isPost && $model->save()) {
-                return $this->redirect(['view', 'video_id' => $model->video_id]);
+                return $this->redirect(['update', 'video_id' => $model->video_id]);
             }
         } else {
             $model->loadDefaultValues();
@@ -115,8 +115,10 @@ class VideoController extends Controller
     {
         $model = $this->findModel($video_id);
 
+        $model->thumbnail = UploadedFile::getInstanceByName('thumbnail');
+
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'video_id' => $model->video_id]);
+            return $this->redirect(['update', 'video_id' => $model->video_id]);
         }
 
         return $this->render('update', [
