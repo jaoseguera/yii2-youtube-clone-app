@@ -9,6 +9,8 @@ services:
       - ~/.composer-docker/cache:/root/.composer/cache:delegated
       # Mount source-code for development
       - ./:/app
+      - ./src/frontend/000-default.conf:/etc/apache2/sites-available/000-default.conf
+    command: /bin/sh -c "apt-get update && apt-get install nano && service apache2 start && while sleep 1000; do :; done"
 
   backend:
     build: backend
@@ -19,6 +21,8 @@ services:
       - ~/.composer-docker/cache:/root/.composer/cache:delegated
       # Mount source-code for development
       - ./:/app
+      - ./src/backend/000-default.conf:/etc/apache2/sites-available/000-default.conf
+    command: /bin/sh -c "apt-get update && apt-get install nano && service apache2 start && while sleep 1000; do :; done"
 
   mysql:
     image: mysql:5.7
