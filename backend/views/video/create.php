@@ -1,13 +1,11 @@
 <?php
 
 use yii\helpers\Html;
-
+use yii\bootstrap5\ActiveForm;
 /** @var yii\web\View $this */
 /** @var common\models\Video $model */
 
 $this->title = 'Create Video';
-$this->params['breadcrumbs'][] = ['label' => 'Videos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="video-create">
 
@@ -23,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <p class="m-0">Drag and drop a file you want to upload</p>
         <p class="text-muted">Your video will be private until you publish it</p>
 
-        <?php $form = \yii\bootstrap5\ActiveForm::begin([
+        <?php $form = ActiveForm::begin([
             'options' => ['enctype' => 'multipart/form-data']
         ]) ?>
 
@@ -34,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <input type="file" id="videoFile" name="video">
         </button>
 
-        <?php \yii\bootstrap5\ActiveForm::end() ?>
+        <?php ActiveForm::end() ?>
     </div>
 
 </div>

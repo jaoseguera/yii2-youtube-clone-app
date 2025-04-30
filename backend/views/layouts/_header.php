@@ -13,9 +13,7 @@ NavBar::begin([
 $menuItems = [
     ['label' => 'Create', 'url' => ['/video/create']],
 ];
-if (Yii::$app->user->isGuest) {
-    $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-}     
+ 
 if (Yii::$app->user->isGuest) {
     echo Html::tag('div',Html::a('Login',['/site/login'],['class' => ['btn btn-link login text-decoration-none']]),['class' => ['d-flex']]);
 } else {

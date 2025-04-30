@@ -8,7 +8,6 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
-    'name' => 'YouTube Clone',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
@@ -40,9 +39,12 @@ return [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-            ],
+            'rules' => [],
         ],
+        //Updates css automatically to avoid cached css.
+        'assetManager' => [
+            'appendTimestamp' => true,
+        ]
     ],
     'params' => $params,
 ];

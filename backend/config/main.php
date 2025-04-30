@@ -8,7 +8,6 @@ $params = array_merge(
 
 return [
     'id' => 'app-backend',
-    'name' => 'YouTube Clone',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     // the "log" component must be loaded during bootstrapping time

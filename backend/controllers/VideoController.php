@@ -48,7 +48,7 @@ class VideoController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Video::find(),
+            'query' => Video::find()->creator(Yii::$app->user->id)->latest(),
             /*
             'pagination' => [
                 'pageSize' => 50
@@ -87,16 +87,12 @@ class VideoController extends Controller
     public function actionCreate()
     {
         $model = new Video();
-
         $model->video = UploadedFile::getInstanceByName('video');
 
-        if ($this->request->isPost) {
-            // Possible bug: $model->load($this->request->post()) returns false always.
-            if ($this->request->isPost && $model->save()) {
-                return $this->redirect(['update', 'video_id' => $model->video_id]);
-            }
-        } else {
-            $model->loadDefaultValues();
+        // Possible bug: $model->load($this->request->post()) returns false always.
+        //Yii::$app->request->isPost = $this->request->isPost
+        if ($this->request->isPost && $model->save()) {
+            return $this->redirect(['update', 'video_id' => $model->video_id]);
         }
 
         return $this->render('create', [
