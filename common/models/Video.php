@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use Imagine\Filter\Basic\Thumbnail;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -99,7 +100,8 @@ class Video extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getStatusLabels() {
+    public function getStatusLabels()
+    {
         return [
             self::STATUS_PUBLISHED => 'Published',
             self::STATUS_UNLISTED => 'Unlisted',
@@ -125,7 +127,7 @@ class Video extends \yii\db\ActiveRecord
             $this->video_name = $this->video->name;
         }
 
-        if($this->thumbnail) {
+        if ($this->thumbnail) {
             $this->has_thumbnail = 1;
         }
 
@@ -143,7 +145,7 @@ class Video extends \yii\db\ActiveRecord
             $this->video->saveAs($videoPath);
         }
 
-        if($this->thumbnail) {
+        if ($this->thumbnail) {
             $thumbnailPath = Yii::getAlias('@frontend/web/storage/thumbs/' . $this->video_id . '.jpg');
             if (!is_dir(dirname($thumbnailPath))) {
                 FileHelper::createDirectory(dirname($thumbnailPath));
@@ -163,6 +165,18 @@ class Video extends \yii\db\ActiveRecord
     public function getThumbnailLink()
     {
         return $this->has_thumbnail ?
-        Yii::$app->params['frontendUrl'] . '/storage/thumbs/' . $this->video_id . '.jpg' : '';
+            Yii::$app->params['frontendUrl'] . '/storage/thumbs/' . $this->video_id . '.jpg' : '';
+    }
+
+    public function afterDelete()
+    {
+        parent::afterDelete();
+
+        $videoPath = Yii::getAlias('@frontend/web/storage/videos/' . $this->video_id . '.mp4');
+        unlink($videoPath);
+        $thumbnailPath = Yii::getAlias('@frontend/web/storage/thumbs/' . $this->video_id . '.jpg');
+        if (file_exists($thumbnailPath)) {
+            unlink($thumbnailPath);
+        }
     }
 }

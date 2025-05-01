@@ -1,9 +1,6 @@
 <?php
 
-use common\models\Video;
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
 /** @var yii\web\View $this */
@@ -26,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
-                'attribute' => 'video_id',
+                'attribute' => 'title',
                 'content' => function($model){
                     return $this->render('_video_item', ['model' => $model]);
                 }
@@ -42,8 +39,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'created_at:datetime',
             'updated_at:datetime',
             //'created_by',
+
+            [
+                'class' => 'yii\grid\ActionColumn',
+                //Only shows delete button
+                'template' => '{delete}',
+                'buttons' => [
+                    'delete' => function ($url) {
+                        return Html::a('Delete video', $url, [
+                            'data-method' => 'post',
+                            'data-confirm' => 'Are you sure?'
+                        ]);
+                    }
+                ]
+            ]
         ],
     ]); ?>
-
-
 </div>
