@@ -38,7 +38,7 @@ return [
         'log' => [
             //During development, it is often desirable to see where each log message is coming from.
             //3 if YII_DEBUG is on and 0 if YII_DEBUG is off.
-            //This means, if YII_DEBUG is on, each log message will be appended with at most 3 levels of the call stack at which the log message is recorded; 
+            //This means, if YII_DEBUG is on, each log message will be appended with at most 3 levels of the call stack at which the log message is recorded;
             //and if YII_DEBUG is off, no call stack information will be included.
             //Yii::debug('Logging test.', __METHOD__);
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -60,8 +60,9 @@ return [
                 'video/update/<video_id>' => 'video/update'
             ],
         ],
+        //Updates css automatically to avoid cached css.
         'assetManager' => [
-            'appendTimestamp' => true
+            'appendTimestamp' => true,
         ]
     ],
     'params' => $params,
