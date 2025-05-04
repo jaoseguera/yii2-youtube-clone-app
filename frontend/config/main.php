@@ -10,6 +10,8 @@ return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    //Instead of using site index as default page
+    'defaultRoute' => '/video/index', 
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [
