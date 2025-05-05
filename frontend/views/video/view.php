@@ -4,6 +4,8 @@
  * @var $model \common\models\Video
  */
 
+use yii\helpers\Url;
+
 ?>
 
 <div class="row">
@@ -18,12 +20,12 @@
     <div class="d-flex justify-content-between align-items-center">
         <?php echo $model->getViews()->count() ?> views - <?php echo Yii::$app->formatter->asDate($model->created_at) ?></div>
     <div>
-        <button class="btn btn-sm btn-outline-primary">
-            <i class="fa-solid fa-thumbs-up"></i> 9
-        </button>
-        <button class="btn btn-sm btn-outline-secondary">
-            <i class="fa-solid fa-thumbs-down"></i> 3
-        </button>
+        <!-- Pjax is an Ajax tool. With it the <a> won't redirect the user to /video/like instead it will remain in the same page. Note: All the Pjax area will be replaced by whatever the controller returns. For example, the two like and dislike buttons could be replaced by a "sucess" string return by the likeAction()-->
+        <?php \yii\widgets\Pjax::begin() ?>
+            <?php echo $this->render('_buttons', [
+                'model' => $model,
+            ]); ?>
+        <?php \yii\widgets\Pjax::end() ?>
     </div>
     <div class="col-sm-4">
 

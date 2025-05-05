@@ -2,7 +2,6 @@
 
 namespace common\models;
 
-use Imagine\Filter\Basic\Thumbnail;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -24,6 +23,9 @@ use yii\imagine\Image;
  * @property int|null $created_at
  * @property int|null $updated_at
  * @property int|null $created_by
+ * 
+ * @property \common\models\VideoLike[] $likes
+ * @property User $createdBy
  */
 class Video extends \yii\db\ActiveRecord
 {
@@ -123,6 +125,16 @@ class Video extends \yii\db\ActiveRecord
         return $this->hasMany(VideoView::className(), ['video_id' => 'video_id']);
     }
 
+    public function getLikes()
+    {
+        return $this->hasMany(VideoLike::className(), ['video_id' => 'video_id'])->liked();
+    }
+
+    public function getDislikes()
+    {
+        return $this->hasMany(VideoLike::className(), ['video_id' => 'video_id'])->disliked();
+    }
+
     /**
      * {@inheritdoc}
      * @return \common\models\query\VideoQuery the active query used by this AR class.
@@ -193,5 +205,15 @@ class Video extends \yii\db\ActiveRecord
         if (file_exists($thumbnailPath)) {
             unlink($thumbnailPath);
         }
+    }
+
+    public function isLikedBy($userId)
+    {
+        return VideoLike::find()->userIdVideoId($userId, $this->video_id)->liked()->one();
+    }
+
+    public function isDislikedBy($userId)
+    {
+        return VideoLike::find()->userIdVideoId($userId, $this->video_id)->disliked()->one();
     }
 }
