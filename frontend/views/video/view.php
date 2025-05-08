@@ -4,8 +4,7 @@
  * @var $model \common\models\Video
  */
 
-use yii\helpers\Url;
-
+ use \yii\helpers\Html;
 ?>
 
 <div class="row">
@@ -22,10 +21,16 @@ use yii\helpers\Url;
     <div>
         <!-- Pjax is an Ajax tool. With it the <a> won't redirect the user to /video/like instead it will remain in the same page. Note: All the Pjax area will be replaced by whatever the controller returns. For example, the two like and dislike buttons could be replaced by a "sucess" string return by the likeAction()-->
         <?php \yii\widgets\Pjax::begin() ?>
-            <?php echo $this->render('_buttons', [
-                'model' => $model,
-            ]); ?>
+        <?php echo $this->render('_buttons', [
+            'model' => $model,
+        ]); ?>
         <?php \yii\widgets\Pjax::end() ?>
+    </div>
+    <div>
+        <p>
+            <?php echo \common\helpers\Html::channelLink($model->createdBy); ?>
+        </p>
+        <p><?php echo Html::encode($model->description) ?></p>
     </div>
     <div class="col-sm-4">
 

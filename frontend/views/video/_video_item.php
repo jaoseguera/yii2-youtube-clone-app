@@ -20,7 +20,7 @@
         <p class="text-muted card-text m-0">
             <?php
             //Access to the User.username through the createdBy (it's a link between Video an User)
-            echo $model->createdBy->username ?>
+            echo \common\helpers\Html::channelLink($model->createdBy); ?>
         </p>
         <p class="text-muted card-text m-0">
         <?php echo $model->getViews()->count() ?> views - <?php echo Yii::$app->formatter->asRelativeTime($model->created_at) ?>

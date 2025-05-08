@@ -59,7 +59,8 @@ return [
             'showScriptName' => false,
             'rules' => [
                 //Change url from '.../video/view?video_id=zhWgPWjH' to .../video/view/zhWgPWjH
-                'video/view/<video_id>' => 'video/view'
+                'video/view/<video_id>' => 'video/view',
+                'c/<username>' => 'channel/view',
             ],
         ],
         //Updates css automatically to avoid cached css.
