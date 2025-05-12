@@ -72,6 +72,29 @@ class VideoController extends Controller
         ]);
     }
 
+    //Advanced search.
+    public function actionSearch($keyword)
+    {
+        $query = Video::find()->published();
+        
+        if($keyword) {
+            $query->byKeyword($keyword);
+        }
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'created_at' => SORT_DESC,
+                ]
+            ],
+        ]);
+
+        return $this->render('search', [
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
     protected function findVideo($id)
     {
         $video = Video::findOne($id);
@@ -127,7 +150,7 @@ class VideoController extends Controller
         ]);
     }
 
-    protected function saveLikeDislike($videoId, $userId, $type) 
+    protected function saveLikeDislike($videoId, $userId, $type)
     {
         $videoLike = new VideoLike();
 
@@ -137,5 +160,4 @@ class VideoController extends Controller
         $videoLike->type = $type;
         $videoLike->save();
     }
-
 }

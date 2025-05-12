@@ -43,4 +43,10 @@ class VideoQuery extends \yii\db\ActiveQuery
     {
         return $this->andWhere(['status' => Video::STATUS_PUBLISHED]);
     }
+
+    public function byKeyword($keyword)
+    {
+        //Add the "console/migrations/m250512_201329_create_fulltext_index_on_video.php" migration so this can work.
+        return $this->andWhere("MATCH(title, description, tags) AGAINST (:keyword)", ["keyword" => $keyword]);
+    }
 }
