@@ -20,7 +20,7 @@ class VideoController extends Controller
             'access' => [
                 'class' => AccessControl::class,
                 //Only applies to the like and dislike buttons.
-                'only' => ['like', 'dislike'],
+                'only' => ['like', 'dislike', 'history'],
                 'rules' => [
                     [
                         //Allows only authentified users.
@@ -79,8 +79,8 @@ class VideoController extends Controller
     public function actionSearch($keyword)
     {
         $query = Video::find()->published();
-        
-        if($keyword) {
+
+        if ($keyword) {
             $query->byKeyword($keyword);
         }
 
@@ -94,6 +94,29 @@ class VideoController extends Controller
         ]);
 
         return $this->render('search', [
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
+    public function actionHistory()
+    {
+        /**
+         * Implementation for:
+         * 
+         * select v.* from video v
+         * inner join (select video_id, max(created_at) as max_date from video_view where user_id = 3 group by video_id) as vv
+         * on vv.video_id = v.video_id
+         * order by vv.max_date desc
+         */
+        $query = Video::find()->alias('v')->innerJoin('(select video_id, max(created_at) as max_date from video_view where user_id = :user_id group by video_id) vv', 'vv.video_id = v.video_id', [
+            'user_id' => Yii::$app->user->id,
+        ])->orderBy("vv.max_date DESC");
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        return $this->render('history', [
             'dataProvider' => $dataProvider
         ]);
     }
