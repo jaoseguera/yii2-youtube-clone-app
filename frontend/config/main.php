@@ -59,7 +59,7 @@ return [
             'showScriptName' => false,
             'rules' => [
                 //Change url from '.../video/view?video_id=zhWgPWjH' to .../video/view/zhWgPWjH
-                'video/view/<video_id>' => 'video/view',
+                'v/<id>' => 'video/view',
                 'c/<username>' => 'channel/view',
             ],
         ],
