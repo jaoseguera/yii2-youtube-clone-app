@@ -43,7 +43,9 @@ class VideoController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Video::find()->published(),
+            //With command optimizes the query. Instead of doing a lot of SELECTs, will do only one with the command IN.
+            //Select * from user where id IN ()
+            'query' => Video::find()->with('createdBy')->published(),
             'sort' => [
                 'defaultOrder' => [
                     'created_at' => SORT_DESC,

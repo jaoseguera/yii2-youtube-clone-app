@@ -3,6 +3,9 @@
 namespace backend\controllers;
 
 use common\models\LoginForm;
+use common\models\Subscriber;
+use common\models\VideoView;
+use common\models\Video;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -62,7 +65,25 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        //Bring the user object.
+        $user = Yii::$app->user->identity;
+        $userId = $user->id;
+        $latestVideo = Video::find()->latest()->creator($userId)->limit(1)->one();
+        $numberOfView = VideoView::find()->innerJoin(Video::tableName().' v', 'v.video_id = vv.video_id')->andWhere(['v.created_by' => $userId])->count();
+        $numberOfSubscribers = $user->getSubscribers()->count();
+        //Get me more recent subscribers
+        //With command optimizes the query. Instead of doing a lot of SELECTs, will do only one with the command IN.
+        //Select * from user where id IN ()
+        $subscribers = Subscriber::find()->with('user')->andWhere([
+            'channel_id' => $userId
+        ])->orderBy('created_at desc')->limit(3)->all();
+
+        return $this->render('index', [
+            'latestVideo' => $latestVideo,
+            'numberOfView' => $numberOfView,
+            'numberOfSubscribers' => $numberOfSubscribers,
+            'subscribers' => $subscribers,
+        ]);
     }
 
     /**
