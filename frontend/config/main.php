@@ -12,6 +12,7 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     //Instead of using site index as default page
     'defaultRoute' => '/video/index',
+    'layout' => 'auth',
     // the "log" component must be loaded during bootstrapping time
     'bootstrap' => ['log'],
     'modules' => [

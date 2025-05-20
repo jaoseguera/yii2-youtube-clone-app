@@ -78,6 +78,13 @@ class SiteController extends Controller
             'channel_id' => $userId
         ])->orderBy('created_at desc')->limit(3)->all();
 
+        $numberOfSubscribers = Yii::$app->cache->get('subscribers-'.$userId);
+
+        If(!$numberOfSubscribers) {
+            $numberOfSubscribers = $user->getSubscribers()->count();
+            Yii::$app->cache->set('subscribers-'.$userId, $numberOfSubscribers);
+        }
+
         return $this->render('index', [
             'latestVideo' => $latestVideo,
             'numberOfView' => $numberOfView,

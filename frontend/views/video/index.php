@@ -1,12 +1,19 @@
 <?php
 /**
  */
+
+use yii\bootstrap5\LinkPager;
+
 /** @var $this \yii\web\View */
 /** @var $dataProvider \yii\data\ActiveDataProvider */
 ?>
 
 <?php echo \yii\widgets\ListView::widget([
     'dataProvider' => $dataProvider,
+    //For Pagination
+    'pager' => [
+        'class' => LinkPager::class, 
+    ],
     'itemView' => '_video_item',
     //Allows the video cards appear next to each other and avoids to show summary.
     'layout' => '<div class="d-flex flex-wrap">{items}</div>{pager}',

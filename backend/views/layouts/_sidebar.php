@@ -8,9 +8,10 @@ use yii\bootstrap5\Nav;
     'options' => [
       'class' => 'd-flex flex-column nav-pills'
     ],
+    'encodeLabels' => false,
     'items' => [
       [
-        'label' => 'Dashboard',
+        'label' => '<i class="fas fa-home"></i> Home',
         'url' => ['site/index']
       ],
       [

@@ -42,6 +42,7 @@ class VideoController extends Controller
 
     public function actionIndex()
     {
+        $this->layout = 'main';
         $dataProvider = new ActiveDataProvider([
             //With command optimizes the query. Instead of doing a lot of SELECTs, will do only one with the command IN.
             //Select * from user where id IN ()
@@ -50,6 +51,9 @@ class VideoController extends Controller
                 'defaultOrder' => [
                     'created_at' => SORT_DESC,
                 ]
+            ],
+            'pagination' => [
+                'pageSize' => 5,
             ],
         ]);
 
@@ -80,6 +84,7 @@ class VideoController extends Controller
     //Advanced search.
     public function actionSearch($keyword)
     {
+        $this->layout = 'main';
         $query = Video::find()->published();
 
         if ($keyword) {
@@ -102,6 +107,7 @@ class VideoController extends Controller
 
     public function actionHistory()
     {
+        $this->layout = 'main';
         /**
          * Implementation for:
          * 
